@@ -4,6 +4,8 @@
 
 list(APPEND FLUTTER_PLUGIN_LIST
   app_links
+  flutter_localization
+  print_bluetooth_thermal
   printing
   url_launcher_windows
 )
