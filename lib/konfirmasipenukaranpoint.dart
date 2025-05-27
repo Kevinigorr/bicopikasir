@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class KonfirmasiPenukaranPointScreen extends StatefulWidget {
+  const KonfirmasiPenukaranPointScreen({super.key});
+
   @override
   _KonfirmasiPenukaranPointScreen createState() =>
       _KonfirmasiPenukaranPointScreen();
@@ -61,11 +63,6 @@ class _KonfirmasiPenukaranPointScreen extends State<KonfirmasiPenukaranPointScre
           .eq('id', id)
           .single();
 
-      if (data == null) {
-        print('Data tidak ditemukan untuk id $id');
-        return;
-      }
-
       final memberId = data['member_id'];
       final penukaranPoint = int.tryParse(data['penukaran_point'].toString()) ?? 0;
 
@@ -82,7 +79,7 @@ class _KonfirmasiPenukaranPointScreen extends State<KonfirmasiPenukaranPointScre
           .eq('id', memberId)
           .single();
 
-      if (memberData == null || memberData['total_points'] == null) {
+      if (memberData['total_points'] == null) {
         print('Gagal ambil total_points member');
         return;
       }

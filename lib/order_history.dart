@@ -11,6 +11,8 @@ import 'package:month_year_picker/month_year_picker.dart';
 import 'package:intl/intl.dart';
 
 class OrderHistoryPage extends StatefulWidget {
+  const OrderHistoryPage({super.key});
+
   @override
   _OrderHistoryPageState createState() => _OrderHistoryPageState();
 }
@@ -200,7 +202,7 @@ class _OrderHistoryPageState extends State<OrderHistoryPage> {
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text('Pilih Tahun'),
-            content: Container(
+            content: SizedBox(
               width: double.minPositive,
               height: 300,
               child: YearPicker(
@@ -596,9 +598,9 @@ class _OrderHistoryPageState extends State<OrderHistoryPage> {
                 margin: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
                 child: ListTile(
                   leading: CircleAvatar(
-                    child: Text('${index + 1}'),
                     backgroundColor: Colors.green, // hijau muda
                     foregroundColor: Colors.white,
+                    child: Text('${index + 1}'),
                   ),
                   title: Text(
                     'Order No: ${order['order_no']?.toString() ?? "-"}',

@@ -1,8 +1,6 @@
 import 'package:bicopi_pos/SplashScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'HomeScreen.dart';
-import 'masuk.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:month_year_picker/month_year_picker.dart';
 

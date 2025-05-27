@@ -53,7 +53,7 @@ class _CartScreenState extends State<CartScreen> {
   // Instance printer
   BlueThermalPrinter printer = BlueThermalPrinter.instance;
   bool _printerConnected = false;
-  List<BluetoothDevice> _devices = [];
+  final List<BluetoothDevice> _devices = [];
 
   @override
   void initState() {
@@ -106,11 +106,11 @@ class _CartScreenState extends State<CartScreen> {
         _snack('Printer RPP02N tidak ditemukan.');
         return;
       }
-      BluetoothDevice? _selectedDevice;
+      BluetoothDevice? selectedDevice;
 
       await printer.connect(printerDevice);
       setState(() {
-        _selectedDevice = printerDevice;
+        selectedDevice = printerDevice;
         _printerConnected = true;
       });
       _snack('Berhasil terhubung ke printer!');
@@ -184,7 +184,7 @@ class _CartScreenState extends State<CartScreen> {
 
     // Cetak PDF seperti biasa
     final doc = pw.Document();
-    final fmtRp = (num n) => 'Rp ${n.toStringAsFixed(0)}';
+    fmtRp(num n) => 'Rp ${n.toStringAsFixed(0)}';
 
     doc.addPage(
       pw.Page(
@@ -264,7 +264,7 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   Future<void> printThermalStruk(String orderNo) async {
-    final fmtRp = (num n) => 'Rp ${n.toStringAsFixed(0)}';
+    fmtRp(num n) => 'Rp ${n.toStringAsFixed(0)}';
 
 
     try {
@@ -280,51 +280,50 @@ class _CartScreenState extends State<CartScreen> {
           height: 160,
         );
 
-      if (resized != null) {
-        // Jika kamu pakai blue_thermal_printer:
-        await printer.printImageBytes(img.encodePng(resized));
+      // Jika kamu pakai blue_thermal_printer:
+      await printer.printImageBytes(img.encodePng(resized));
+      printer.printNewLine();
+      printer.printCustom('STRUK PEMESANAN', 3, 1); // size 3, bold
+      printer.printNewLine();
+
+      printer.printLeftRight('Order No:', orderNo, 1);
+      printer.printLeftRight('Meja:', mejaC.text.trim(), 1);
+      printer.printLeftRight('Nama:', namaC.text.trim(), 1);
+
+        printer.printLeftRight('Catatan:', catatC.text.trim(), 1);
         printer.printNewLine();
-        printer.printCustom('STRUK PEMESANAN', 3, 1); // size 3, bold
+
+        printer.printCustom('Menu       Qty   Harga    Subtotal', 1, 0);
+        printer.printCustom('-----------------------------------', 1, 0);
+
+        for (var item in cart) {
+          // Format tiap baris agar rapi
+          String menu = item.namaMenu.padRight(10);
+          String qty = item.qtt.toString().padLeft(3);
+          String price = fmtRp(item.price).padLeft(8);
+          String subtotal = fmtRp(item.price * item.qtt).padLeft(10);
+
+          printer.printCustom('$menu $qty $price $subtotal', 1, 0);
+
+
+            printer.printCustom('  Catatan: ${item.catatan}', 1, 0);}
+
+
+        printer.printCustom('-----------------------------------', 1, 0);
+        printer.printCustom('Total Item: ${totalItem.toString()}', 2, 0); // 1 = size, 0 = align left
+        printer.printCustom('Total Harga: ${fmtRp(totalRp)}', 2, 0);
+
+
         printer.printNewLine();
 
-        printer.printLeftRight('Order No:', orderNo, 1);
-        printer.printLeftRight('Meja:', mejaC.text.trim(), 1);
-        printer.printLeftRight('Nama:', namaC.text.trim(), 1);
+        printer.printNewLine();
+        printer.printCustom('Terima Kasih!', 2, 1);
+        printer.printNewLine();
 
-          printer.printLeftRight('Catatan:', catatC.text.trim(), 1);
-          printer.printNewLine();
-
-          printer.printCustom('Menu       Qty   Harga    Subtotal', 1, 0);
-          printer.printCustom('-----------------------------------', 1, 0);
-
-          for (var item in cart) {
-            // Format tiap baris agar rapi
-            String menu = item.namaMenu.padRight(10);
-            String qty = item.qtt.toString().padLeft(3);
-            String price = fmtRp(item.price).padLeft(8);
-            String subtotal = fmtRp(item.price * item.qtt).padLeft(10);
-
-            printer.printCustom('$menu $qty $price $subtotal', 1, 0);
+        printer.paperCut();
 
 
-              printer.printCustom('  Catatan: ${item.catatan}', 1, 0);}
-
-
-          printer.printCustom('-----------------------------------', 1, 0);
-          printer.printCustom('Total Item: ${totalItem.toString()}', 2, 0); // 1 = size, 0 = align left
-          printer.printCustom('Total Harga: ${fmtRp(totalRp)}', 2, 0);
-
-
-          printer.printNewLine();
-
-          printer.printNewLine();
-          printer.printCustom('Terima Kasih!', 2, 1);
-          printer.printNewLine();
-
-          printer.paperCut();
-
-
-      }}
+    }
 
 
     } catch (e) {

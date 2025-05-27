@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'konfirmasipesanan.dart';
 import 'konfirmasipenukaranpoint.dart';
-import 'konfirmpesanan.dart';
 
 class KonfirmasiPage extends StatefulWidget {
   const KonfirmasiPage({super.key});

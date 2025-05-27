@@ -150,7 +150,7 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
                     ],
                   ),
                 );
-              }).toList()
+              })
             else
               const Padding(
                 padding: EdgeInsets.all(8.0),

@@ -4,7 +4,7 @@ class OrderDetailPage extends StatelessWidget {
   final Map<String, dynamic> order;
   final List<dynamic> items;
 
-  OrderDetailPage({required this.order, required this.items});
+  const OrderDetailPage({super.key, required this.order, required this.items});
 
   String formatDate(String? isoString) {
     if (isoString == null) return '-';

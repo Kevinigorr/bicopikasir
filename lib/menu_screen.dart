@@ -42,8 +42,10 @@ class _MenuScreenState extends State<MenuScreen> {
       }
     } catch (e) {
       debugPrint('FETCH ERR: $e');
-      if (mounted) ScaffoldMessenger.of(context)
+      if (mounted) {
+        ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text('Gagal memuat menu')));
+      }
     } finally {
       if (mounted) setState(() => loading = false);
     }
@@ -116,9 +118,12 @@ class _MenuScreenState extends State<MenuScreen> {
     return GridView.builder(
       padding: const EdgeInsets.all(10),
       itemCount: items.length,
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2, crossAxisSpacing: 10, mainAxisSpacing: 10, childAspectRatio: .75,
-      ),
+      gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+  maxCrossAxisExtent: 200, // ukuran maksimal lebar setiap item
+  mainAxisSpacing: 12,
+  crossAxisSpacing: 12,
+  childAspectRatio: 0.75, // proporsi tinggi dan lebar item
+),
       itemBuilder: (_, i) => _card(items[i]),
     );
   }
