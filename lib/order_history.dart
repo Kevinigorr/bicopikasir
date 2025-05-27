@@ -69,14 +69,14 @@ class _OrderHistoryPageState extends State<OrderHistoryPage> {
         }
 
         response = await supabase
-            .from('orderkasir_history')
+            .from('history_kasir')
             .select()
             .gte('created_at', start.toIso8601String())
             .lte('created_at', end.toIso8601String())
             .order('created_at', ascending: false);
       } else {
         response = await supabase
-            .from('orderkasir_history')
+            .from('history_kasir')
             .select()
             .order('created_at', ascending: false);
       }

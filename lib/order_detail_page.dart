@@ -67,7 +67,7 @@ class OrderDetailPage extends StatelessWidget {
                         Expanded(child: Text('${item['nama_menu'] ?? 'Menu'}')),
                         Text('Qty: ${item['qty'] ?? '-'}'),
                         SizedBox(width: 10),
-                        Text('Rp ${item['harga'] ?? '-'}'),
+                        Text('Rp ${item['subtotal'] ?? '-'}'),
                       ],
                     ),
                   );
